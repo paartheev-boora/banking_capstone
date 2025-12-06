@@ -7,10 +7,11 @@
       "direction": "in"
     },
     {
-      "type": "queue",
+      "type": "serviceBus",
       "name": "outputQueueItem",
       "queueName": "ingestionqueue",
-      "connection": "QueueConnection",
+      "entityType": "queue",
+      "connection": "ServiceBusConnection",
       "direction": "out"
     }
   ]

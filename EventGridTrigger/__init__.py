@@ -1,19 +1,18 @@
-import logging
 import json
+import logging
 import azure.functions as func
 
 def main(event: func.EventGridEvent, outputQueueItem: func.Out[str]):
-    logging.info("Event Grid Trigger executed.")
+    logging.info("EventGrid Trigger executed")
 
     data = event.get_json()
-    blob_url = data.get("url")
-    event_time = event.event_time.isoformat()
+    blob_url = data.get("url") or data["data"].get("url")
 
-    message = {
+    payload = {
         "blob_url": blob_url,
-        "event_time": event_time,
+        "event_time": str(event.event_time),
         "validated": True
     }
 
-    outputQueueItem.set(json.dumps(message))
-    logging.info(f"Message pushed to queue: {message}")
+    outputQueueItem.set(json.dumps(payload))
+    logging.info("Message sent to Service Bus queue ingestionqueue")

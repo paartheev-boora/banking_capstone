@@ -1,22 +1,19 @@
-import pandas as pd
-import io
-import os
+# project/common/utils.py
 from azure.storage.blob import BlobClient
+from azure.identity import DefaultAzureCredential
+from io import BytesIO
+import pandas as pd
+import logging
 
-def download_blob_to_df(path):
-    # CASE 1: Local file (bank_delta path)
-    if path.startswith("bank_delta") or "/" in path and not path.startswith("http"):
-        return pd.read_csv(path)
-
-    # CASE 2: Azure Blob Storage URL
-    blob = BlobClient.from_blob_url(path)
-    data = blob.download_blob().readall()
-
-    # Try CSV then JSONL
+def download_blob_to_df(blob_url: str) -> pd.DataFrame:
     try:
-        return pd.read_csv(io.BytesIO(data))
-    except:
-        try:
-            return pd.read_json(io.BytesIO(data), lines=True)
-        except:
-            raise Exception("Unable to parse blob file")
+        credential = DefaultAzureCredential()  # This is where the error happens—fix auth first
+        blob_client = BlobClient.from_blob_url(blob_url, credential=credential)
+        download_stream = blob_client.download_blob()
+        bytes_data = download_stream.readall()
+        df = pd.read_csv(BytesIO(bytes_data))
+        logging.info(f"Loaded DataFrame with {len(df)} rows")
+        return df
+    except Exception as e:
+        logging.error(f"Failed to download blob: {e}")
+        raise

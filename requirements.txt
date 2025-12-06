@@ -6,3 +6,5 @@ azure-functions
 azure-cosmos
 azure-storage-blob
 pandas
+azure-identity
+azure-identity-broker
