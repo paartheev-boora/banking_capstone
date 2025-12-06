@@ -59,3 +59,15 @@ Below is the screenshot showing messages in the `ingestionqueue` after uploading
 
 
 ---
+
+# Day 2 Deliverable
+
+## Started with day 1 deliverables but using Service Bus Queue this time as per requirement
+## Done with it and got the results as expected.
+### <img width="1919" height="852" alt="Screenshot 2025-12-06 102933" src="https://github.com/user-attachments/assets/f3c5ef79-636d-4842-82d5-d36b78ea5dea" />
+## Started with 2nd day deliverables.
+### The Service Bus Queue Trigger function was successfully reading queues from Service Bus queue.
+### But the Function could not download the blob content using blob url from queue message.
+### It displayed a Authentication error 
+### for which I have decided to create a identity in Function App and create a role assignment in blob storage account using that identity.
+### Meanwhile, the cleanup has occured. And this stated actions were not only the part but also other errors from deployment as informed in the group.
